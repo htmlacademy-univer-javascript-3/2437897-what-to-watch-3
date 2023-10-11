@@ -1,13 +1,11 @@
-import React from 'react';
-
-type FilmCardProps = {
-  imagePath: string,
-  imageAlt: string,
-  name: string,
-  href: string
+export type FilmCardProps = {
+  imagePath: string;
+  imageAlt: string;
+  name: string;
+  href: string;
 }
 
-const FilmCard = (props: FilmCardProps) => {
+export function FilmCard(props: FilmCardProps){
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
@@ -18,8 +16,4 @@ const FilmCard = (props: FilmCardProps) => {
       </h3>
     </article>
   );
-};
-
-export default FilmCard;
-
-
+}

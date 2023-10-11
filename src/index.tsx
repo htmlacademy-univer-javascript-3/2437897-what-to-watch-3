@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MainPage from './screens/MainPage/index';
+import App from './components/app.tsx';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -8,6 +8,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <MainPage/>
+    <App name={'Film name'} genre={'Drama'} releaseAt={new Date(2020, 9, 10)}/>
   </React.StrictMode>
 );

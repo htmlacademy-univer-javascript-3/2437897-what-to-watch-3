@@ -1,8 +1,12 @@
-import React from 'react';
-import FilmCard from "../../components/FilmCard/index";
+import {FilmCard, FilmCardProps} from '../../components/film-card.tsx';
 
+export type MainPageProps = {
+  name: string;
+  genre: string;
+  releaseAt: Date;
+}
 
-const MainPage = () => {
+function MainPage(props: MainPageProps){
   return (
     <>
       <section className="film-card">
@@ -36,27 +40,26 @@ const MainPage = () => {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218"
-                   height="327"/>
+              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="film-card__title">{props.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
+                <span className="film-card__genre">{props.genre}</span>
+                <span className="film-card__year">{props.releaseAt.getFullYear()}</span>
               </p>
 
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlink:href="#play-s"></use>
+                    <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlink:href="#add"></use>
+                    <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
                   <span className="film-card__count">9</span>
@@ -106,18 +109,15 @@ const MainPage = () => {
 
           <div className="catalog__films-list">
             {
-              [
+              Array(20).fill(
                 {
-                  name: "Fantastic Beasts: The Crimes of Grindelwald",
-                  imageAlt: "Fantastic Beasts: The Crimes of Grindelwald",
-                  imagePath: "img/fantastic-beasts-the-crimes-of-grindelwald.jpg",
+                  name: 'Fantastic Beasts: The Crimes of Grindelwald',
+                  imageAlt: 'Fantastic Beasts: The Crimes of Grindelwald',
+                  imagePath: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
                 },
-                {
-                  name: "Snatch",
-                  imageAlt: "Snatch",
-                  imagePath: "img/snatch.jpg",
-                },
-              ].map(film => <FilmCard name={film.name} imageAlt={film.imageAlt} imagePath={film.imagePath} href="film-page.html"/>)
+              ).map((film: FilmCardProps) =>
+                <FilmCard key={film.name} name={film.name} imageAlt={film.imageAlt} imagePath={film.imagePath} href="film-page.html"/>
+              )
             }
           </div>
 
@@ -142,7 +142,7 @@ const MainPage = () => {
       </div>
     </>
   );
-};
+}
 
 export default MainPage;
 
