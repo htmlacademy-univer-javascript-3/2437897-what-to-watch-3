@@ -1,12 +1,12 @@
-import {FilmCard, FilmCardProps} from '../../components/film-card.tsx';
+import {FilmList} from '../../components/film-list';
+import {FilmInfo} from '../../types/film';
 
 export type MainPageProps = {
-  name: string;
-  genre: string;
-  releaseAt: Date;
+  selectedFilm: FilmInfo;
+  films: FilmInfo[];
 }
 
-function MainPage(props: MainPageProps){
+function MainPage({selectedFilm, films}: MainPageProps){
   return (
     <>
       <section className="film-card">
@@ -40,14 +40,14 @@ function MainPage(props: MainPageProps){
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={selectedFilm.imagePath} alt={selectedFilm.name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.name}</h2>
+              <h2 className="film-card__title">{selectedFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.genre}</span>
-                <span className="film-card__year">{props.releaseAt.getFullYear()}</span>
+                <span className="film-card__genre">{selectedFilm.genre}</span>
+                <span className="film-card__year">{selectedFilm.releaseAt.getFullYear()}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -107,19 +107,7 @@ function MainPage(props: MainPageProps){
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {
-              Array(20).fill(
-                {
-                  name: 'Fantastic Beasts: The Crimes of Grindelwald',
-                  imageAlt: 'Fantastic Beasts: The Crimes of Grindelwald',
-                  imagePath: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-                },
-              ).map((film: FilmCardProps) =>
-                <FilmCard key={film.name} name={film.name} imageAlt={film.imageAlt} imagePath={film.imagePath} href="film-page.html"/>
-              )
-            }
-          </div>
+          <FilmList films={films}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
