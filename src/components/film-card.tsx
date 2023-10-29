@@ -1,9 +1,10 @@
 import {Link} from 'react-router-dom';
 import {FilmInfo} from '../types/film';
+import {MouseEventHandler} from 'react';
 
 type FilmCardProps = {
-  onMouseOver: void;
-  onMouseLeave: void;
+  onMouseOver: MouseEventHandler<HTMLElement> | undefined;
+  onMouseLeave: MouseEventHandler<HTMLElement> | undefined;
 }
 
 export function FilmCard(props: FilmInfo & FilmCardProps){

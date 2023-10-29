@@ -1,5 +1,6 @@
 import {FilmList} from '../../components/film-list';
 import {FilmInfo} from '../../types/film';
+import {Link} from 'react-router-dom';
 
 export function MyListPage({films}: {films: FilmInfo[]}){
   return (

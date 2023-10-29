@@ -1,7 +1,7 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
 import {FilmInfo} from '../../types/film';
-import {AddReviewForm} from "../../components/add-review-form";
+import {AddReviewForm} from '../../components/add-review-form';
 
 export function ReviewPage({films}: {films: FilmInfo[]}){
   const {id} = useParams();

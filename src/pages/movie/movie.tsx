@@ -1,7 +1,7 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
 import {FilmInfo} from '../../types/film';
-import {FilmList} from "../../components/film-list";
+import {FilmList} from '../../components/film-list';
 
 export function MoviePage({films}: {films: FilmInfo[]}){
   const {id} = useParams();
