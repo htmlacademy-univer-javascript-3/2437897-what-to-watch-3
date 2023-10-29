@@ -19,7 +19,7 @@ export function FilmList({films}: { films: FilmInfo[] }) {
           )
         )
       }
-      <p>{hoveredFilm}</p>
+      <p>{hoveredFilm?.name}</p>
     </div>
   );
 }

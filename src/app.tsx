@@ -28,9 +28,8 @@ function App(props: MainPageProps) {
             <Route path='mylist' element={<MyListPage films={props.films}/>}/>
           </Route>
           <Route path='films/'>
-            <Route path=':id/' element={<MoviePage films={props.films}/>}>
-              <Route path='review' element={<ReviewPage films={props.films}/>}/>
-            </Route>
+            <Route path=':id/review' element={<ReviewPage films={props.films}/>}/>
+            <Route path=':id/' element={<MoviePage films={props.films}/>}/>
           </Route>
           <Route path='player/:id' element={<Player films={props.films}/>}/>
         </Route>
