@@ -30,16 +30,13 @@ export function FilmCard(props: FilmInfo & FilmCardProps){
   return (
     <article className="small-film-card catalog__films-card" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div className="small-film-card__image">
-        {
-          shouldPlayVideo ? (
-            <VideoPlayer
-              videoPath={props.videoUrl}
-              posterPath={props.imagePath}
-              width={280}
-              height={175}
-            />
-          ) : <img src={props.imagePath} alt={props.name} width="280" height="175"/>
-        }
+        <VideoPlayer
+          videoPath={props.videoUrl}
+          posterPath={props.imagePath}
+          width={280}
+          height={175}
+          isPlaying={shouldPlayVideo}
+        />
       </div>
       <h3 className="small-film-card__title">
         <Link to={`films/${props.id}`} className="small-film-card__link">{props.name}</Link>
