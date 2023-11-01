@@ -1,6 +1,16 @@
-export function Player(){
-  return (
+import {useParams} from 'react-router-dom';
+import {NotFoundPage} from '../not-found/not-found';
+import {FilmInfo} from '../../types/film';
 
+export function Player({films} : {films: FilmInfo[]}){
+  const {id} = useParams();
+  const film = films.find((f) => f.id === id);
+
+  if (!film){
+    return <NotFoundPage/>;
+  }
+
+  return (
     <div className="player">
       <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
 
