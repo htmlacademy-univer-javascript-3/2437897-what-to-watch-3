@@ -4,4 +4,5 @@ export type FilmInfo = {
   imagePath: string;
   genre: string;
   releaseAt: Date;
+  videoUrl: string;
 }
