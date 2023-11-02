@@ -7,6 +7,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 'bdc932e6-bcee-45bd-9e17-4f5405199f2a',
@@ -14,6 +15,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/bohemian-rhapsody.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 'bdc932e6-bcee-45bd-9e17-4f5405199f3b',
@@ -21,6 +23,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/macbeth.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 'bdc932e6-bcee-45bd-9e17-4f5405199f4c',
@@ -28,6 +31,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/aviator.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 'bdc932e6-bcee-45bd-9e17-4f5405199f5d',
@@ -35,6 +39,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/we-need-to-talk-about-kevin.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 'bdc932e6-bcee-45bd-9e17-4f5405199f6e',
@@ -42,6 +47,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/what-we-do-in-the-shadows.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 'bdc932e6-bcee-45bd-9e17-4f5405199f7f',
@@ -49,6 +55,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/revenant.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
   {
     id: 'bdc932e6-bcee-45bd-9e17-4f5405199f8a',
@@ -56,6 +63,7 @@ export const films: FilmInfo[] = [
     imagePath: 'img/johnny-english.jpg',
     genre: 'Drama',
     releaseAt: new Date(),
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
   },
 ];
 
