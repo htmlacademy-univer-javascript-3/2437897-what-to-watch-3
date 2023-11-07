@@ -2,16 +2,17 @@ import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
 import {FilmInfo} from '../../types/film';
 import {FilmList} from '../../components/film-list';
-import {MovieTab} from '../../components/movie-tab.tsx';
+import {MovieTabs} from '../../components/movie-tabs.tsx';
 
 export function MoviePage({films}: {films: FilmInfo[]}){
+  const sameFilmsCount = 4;
   const {id} = useParams();
   const film = films.find((f) => f.id === id);
 
   if (!film){
     return <NotFoundPage/>;
   }
-
+  const sameFilms = films.filter((item, i) => item.genre === film.genre && i < sameFilmsCount);
 
   return (
     <>
@@ -50,13 +51,13 @@ export function MoviePage({films}: {films: FilmInfo[]}){
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
+                    <use xlinkHref="#play-s"/>
                   </svg>
                   <span>Play</span>
                 </button>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
+                    <use xlinkHref="#add"/>
                   </svg>
                   <span>My list</span>
                   <span className="film-card__count">9</span>
@@ -66,12 +67,12 @@ export function MoviePage({films}: {films: FilmInfo[]}){
             </div>
           </div>
         </div>
-        <MovieTab imagePath={film.imagePath} name={film.name}/>
+        <MovieTabs {...film} />
       </section>
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={films}/>
+          <FilmList films={sameFilms}/>
         </section>
         <footer className="page-footer">
           <div className="logo">
