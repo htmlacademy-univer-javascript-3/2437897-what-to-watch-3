@@ -3,6 +3,10 @@ import {FilmInfo} from '../../types/film';
 import {Link} from 'react-router-dom';
 import {GenreList} from '../../components/genre-list';
 import {useAppSelector} from '../../hooks/index';
+import {useDispatch} from 'react-redux';
+import {useEffect} from 'react';
+import {setFilmsCount} from '../../store/action';
+import {FILMS_BATCH_SIZE} from '../../store/reducer';
 
 export type MainPageProps = {
   selectedFilm: FilmInfo;
@@ -10,6 +14,11 @@ export type MainPageProps = {
 
 function MainPage({selectedFilm}: MainPageProps){
   const films = useAppSelector((state) => state.genreFilms);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setFilmsCount(FILMS_BATCH_SIZE));
+  }, [dispatch]);
 
   return (
     <>
@@ -80,10 +89,6 @@ function MainPage({selectedFilm}: MainPageProps){
 
           <GenreList/>
           <FilmList films={films}/>
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
         </section>
 
         <footer className="page-footer">
