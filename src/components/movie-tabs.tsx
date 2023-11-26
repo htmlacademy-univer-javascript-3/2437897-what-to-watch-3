@@ -1,8 +1,8 @@
 import {useState} from 'react';
-import {FilmInfo} from '../types/film';
+import {FilmInfoShort} from '../types/film';
 
 
-export function MovieTabs(props: FilmInfo) {
+export function MovieTabs(props: FilmInfoShort) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const tabs = [
@@ -66,7 +66,7 @@ export function MovieTabs(props: FilmInfo) {
             </p>
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Released</strong>
-              <span className="film-card__details-value">{props.releaseAt.getFullYear()}</span>
+              <span className="film-card__details-value">{new Date().getFullYear()}</span>
             </p>
           </div>
         </div>
@@ -113,7 +113,7 @@ export function MovieTabs(props: FilmInfo) {
     <div className="film-card__wrap film-card__translate-top">
       <div className="film-card__info">
         <div className="film-card__poster film-card__poster--big">
-          <img src={props.imagePath} alt={props.name} width="218" height="327" />
+          <img src={props.previewImage} alt={props.name} width="218" height="327" />
         </div>
         <div className="film-card__desc">
           <nav className="film-nav film-card__nav">

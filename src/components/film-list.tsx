@@ -1,13 +1,13 @@
 import {FilmCard} from './film-card';
 import {useState} from 'react';
-import {FilmInfo} from '../types/film';
+import {FilmInfoShort} from '../types/film';
 import {useAppSelector} from '../hooks/index';
 import {useDispatch} from 'react-redux';
 import {setFilmsCount} from '../store/action';
 import {FILMS_BATCH_SIZE} from '../store/reducer';
 
-export function FilmList({films}: { films: FilmInfo[] }) {
-  const [, setHoveredFilm] = useState<FilmInfo | undefined>();
+export function FilmList({films}: { films: FilmInfoShort[] }) {
+  const [, setHoveredFilm] = useState<FilmInfoShort | undefined>();
   const filmsCount = useAppSelector((state) => state.filmsCount);
   const dispatch = useDispatch();
 

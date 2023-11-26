@@ -1,10 +1,10 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
-import {FilmInfo} from '../../types/film';
+import {FilmInfoShort} from '../../types/film';
 import {FilmList} from '../../components/film-list';
 import {MovieTabs} from '../../components/movie-tabs.tsx';
 
-export function MoviePage({films}: {films: FilmInfo[]}){
+export function MoviePage({films}: {films: FilmInfoShort[]}){
   const sameFilmsCount = 4;
   const {id} = useParams();
   const film = films.find((f) => f.id === id);
@@ -19,7 +19,7 @@ export function MoviePage({films}: {films: FilmInfo[]}){
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.imagePath} alt={film.name} />
+            <img src={film.previewImage} alt={film.name} />
           </div>
           <h1 className="visually-hidden">WTW</h1>
           <header className="page-header film-card__head">
@@ -46,7 +46,7 @@ export function MoviePage({films}: {films: FilmInfo[]}){
               <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.releaseAt.getFullYear()}</span>
+                <span className="film-card__year">{new Date().getFullYear()}</span>
               </p>
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">

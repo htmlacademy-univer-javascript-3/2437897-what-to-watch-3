@@ -1,8 +1,8 @@
 import {FilmList} from '../../components/film-list';
-import {FilmInfo} from '../../types/film';
+import {FilmInfoShort} from '../../types/film';
 import {Link} from 'react-router-dom';
 
-export function MyListPage({films}: {films: FilmInfo[]}){
+export function MyListPage({films}: {films: FilmInfoShort[]}){
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

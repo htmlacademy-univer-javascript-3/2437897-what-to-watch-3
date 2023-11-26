@@ -8,7 +8,8 @@ import {Player} from './pages/player/player';
 import {NotFoundPage} from './pages/not-found/not-found';
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from './hooks/index';
-import {updateFilmList} from './store/action';
+import {LoadingScreen} from './pages/loading-screen/loading-screen';
+import {fetchFilmList} from './store/api-action';
 
 
 function AuthRequired({isAuthorized} : { isAuthorized: boolean }){
@@ -20,14 +21,21 @@ function AuthRequired({isAuthorized} : { isAuthorized: boolean }){
   );
 }
 
+
 function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(updateFilmList([]));
+    dispatch(fetchFilmList());
   }, [dispatch]);
 
+  const isFilmListLoading = useAppSelector((state) => state.isFilmListLoading);
   const films = useAppSelector((state) => state.allFilms);
+  if (isFilmListLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>

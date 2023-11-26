@@ -1,8 +1,8 @@
 import {useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
-import {FilmInfo} from '../../types/film';
+import {FilmInfoShort} from '../../types/film';
 
-export function Player({films} : {films: FilmInfo[]}){
+export function Player({films} : {films: FilmInfoShort[]}){
   const {id} = useParams();
   const film = films.find((f) => f.id === id);
 

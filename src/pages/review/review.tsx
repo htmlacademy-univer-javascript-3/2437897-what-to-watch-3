@@ -1,9 +1,9 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
-import {FilmInfo} from '../../types/film';
+import {FilmInfoShort} from '../../types/film';
 import {AddReviewForm} from '../../components/add-review-form';
 
-export function ReviewPage({films}: {films: FilmInfo[]}){
+export function ReviewPage({films}: {films: FilmInfoShort[]}){
   const {id} = useParams();
   const film = films.find((f) => f.id === id);
 
@@ -15,7 +15,7 @@ export function ReviewPage({films}: {films: FilmInfo[]}){
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.imagePath} alt={film.name} />
+          <img src={film.previewImage} alt={film.name} />
         </div>
         <h1 className="visually-hidden">WTW</h1>
         <header className="page-header">
@@ -48,7 +48,7 @@ export function ReviewPage({films}: {films: FilmInfo[]}){
           </ul>
         </header>
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.imagePath} alt={film.name} width="218" height="327" />
+          <img src={film.previewImage} alt={film.name} width="218" height="327" />
         </div>
       </div>
       <AddReviewForm />
