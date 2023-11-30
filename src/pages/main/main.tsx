@@ -1,5 +1,5 @@
 import {FilmList} from '../../components/film-list';
-import {FilmInfo} from '../../types/film';
+import {FilmInfoShort} from '../../types/film';
 import {Link} from 'react-router-dom';
 import {GenreList} from '../../components/genre-list';
 import {useAppSelector} from '../../hooks/index';
@@ -9,7 +9,7 @@ import {setFilmsCount} from '../../store/action';
 import {FILMS_BATCH_SIZE} from '../../store/reducer';
 
 export type MainPageProps = {
-  selectedFilm: FilmInfo;
+  selectedFilm: FilmInfoShort;
 }
 
 function MainPage({selectedFilm}: MainPageProps){
@@ -24,7 +24,7 @@ function MainPage({selectedFilm}: MainPageProps){
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={selectedFilm.imagePath} alt={selectedFilm.name}/>
+          <img src={selectedFilm.previewImage} alt={selectedFilm.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -53,14 +53,14 @@ function MainPage({selectedFilm}: MainPageProps){
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={selectedFilm.imagePath} alt={selectedFilm.name} width="218" height="327"/>
+              <img src={selectedFilm.previewImage} alt={selectedFilm.name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
               <h2 className="film-card__title">{selectedFilm.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{selectedFilm.genre}</span>
-                <span className="film-card__year">{selectedFilm.releaseAt.getFullYear()}</span>
+                <span className="film-card__year">{new Date().getFullYear()}</span>
               </p>
 
               <div className="film-card__buttons">

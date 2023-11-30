@@ -1,6 +1,8 @@
 import {createAction} from '@reduxjs/toolkit';
-import {FilmInfo} from '../types/film';
+import {FilmInfoShort} from '../types/film';
 
 export const selectGenre = createAction<{genre: string}>('films/selectGenre');
-export const updateFilmList = createAction<FilmInfo[]>('films/updateFilmList');
+
+export const setFilmListLoadingStatus = createAction<boolean>('data/setFilmListLoadingStatus');
+export const updateFilmList = createAction<FilmInfoShort[]>('films/updateFilmList');
 export const setFilmsCount = createAction<number>('films/filmsCount');

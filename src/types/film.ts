@@ -1,8 +1,7 @@
-export type FilmInfo = {
+export type FilmInfoShort = {
   id: string;
   name: string;
-  imagePath: string;
+  previewImage: string;
   genre: string;
-  releaseAt: Date;
-  videoUrl: string;
+  previewVideoLink: string;
 }
