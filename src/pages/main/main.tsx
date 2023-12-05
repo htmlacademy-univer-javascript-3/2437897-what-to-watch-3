@@ -1,12 +1,12 @@
 import {FilmList} from '../../components/film-list';
 import {FilmInfoShort} from '../../types/film';
-import {Link} from 'react-router-dom';
 import {GenreList} from '../../components/genre-list';
 import {useAppSelector} from '../../hooks/index';
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
 import {setFilmsCount} from '../../store/action';
 import {FILMS_BATCH_SIZE} from '../../store/reducer';
+import {Header} from '../../components/header.tsx';
 
 export type MainPageProps = {
   selectedFilm: FilmInfoShort;
@@ -28,28 +28,7 @@ function MainPage({selectedFilm}: MainPageProps){
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
-
-        <header className="page-header film-card__head">
-          <div className="logo">
-            <Link className="logo__link" to={'/'}>
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
-        </header>
-
+        <Header extraStyle={'film-card__head'}/>
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
