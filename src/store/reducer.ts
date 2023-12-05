@@ -1,6 +1,6 @@
 import {FilmInfoShort} from '../types/film';
 import {createReducer} from '@reduxjs/toolkit';
-import {setFilmsCount, selectGenre, updateFilmList, setFilmListLoadingStatus, requireAuthorization} from './action';
+import {setFilmsCount, selectGenre, updateFilmList, setFilmListLoadingStatus, setAuthorizationStatus} from './action';
 import {AuthorizationStatus} from '../types/auth.ts';
 
 export const ALL_GENRES = 'All genres';
@@ -47,7 +47,7 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setFilmsCount, (state, action) => {
       state.filmsCount = action.payload;
     })
-    .addCase(requireAuthorization, (state, action) => {
+    .addCase(setAuthorizationStatus, (state, action) => {
       state.authorizationStatus = action.payload;
     });
 });

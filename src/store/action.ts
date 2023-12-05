@@ -8,4 +8,4 @@ export const setFilmListLoadingStatus = createAction<boolean>('data/setFilmListL
 export const updateFilmList = createAction<FilmInfoShort[]>('films/updateFilmList');
 export const setFilmsCount = createAction<number>('films/filmsCount');
 
-export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+export const setAuthorizationStatus = createAction<AuthorizationStatus>('user/setAuthorizationStatus');

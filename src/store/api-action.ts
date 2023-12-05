@@ -2,7 +2,7 @@ import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../hooks/index';
 import {State} from './reducer';
 import {AxiosInstance} from 'axios';
-import {requireAuthorization, setFilmListLoadingStatus, updateFilmList} from './action';
+import {setAuthorizationStatus, setFilmListLoadingStatus, updateFilmList} from './action';
 import {FilmInfoShort} from '../types/film';
 import {AuthData, AuthorizationStatus, UserData} from '../types/auth.ts';
 import {saveToken} from '../services/token.ts';
@@ -35,9 +35,9 @@ export const verifyAuthorized = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     try {
       await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Authorized));
+      dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.AuthRequired));
+      dispatch(setAuthorizationStatus(AuthorizationStatus.AuthRequired));
     }
   },
 );
@@ -50,6 +50,6 @@ export const login = createAsyncThunk<void, AuthData, {
   async ({login: email, password}, {dispatch, extra: api}) => {
     const {data: {token}} = await api.post<UserData>(APIRoute.Login, {email, password});
     saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Authorized));
+    dispatch(setAuthorizationStatus(AuthorizationStatus.Authorized));
   },
 );
