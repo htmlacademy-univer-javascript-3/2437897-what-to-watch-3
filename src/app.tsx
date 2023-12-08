@@ -1,5 +1,5 @@
 import MainPage from './pages/main/main.tsx';
-import {BrowserRouter, Routes, Route, Outlet} from 'react-router-dom';
+import {BrowserRouter, Outlet, Route, Routes} from 'react-router-dom';
 import {SignInPage} from './pages/sign-in/sign-in';
 import {MyListPage} from './pages/my-list/my-list';
 import {MoviePage} from './pages/movie/movie';
@@ -9,14 +9,15 @@ import {NotFoundPage} from './pages/not-found/not-found';
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from './hooks/index';
 import {LoadingScreen} from './pages/loading-screen/loading-screen';
-import {fetchFilmList} from './store/api-action';
+import {fetchFilmList, verifyAuthorized} from './store/api-action';
+import {AuthorizationStatus} from './types/auth.ts';
 
 
-function AuthRequired({isAuthorized} : { isAuthorized: boolean }){
+function AuthRequired({authorizationStatus} : { authorizationStatus: AuthorizationStatus }){
   return (
     <>
       {/*eslint-disable-next-line*/}
-      {isAuthorized ? <Outlet/> : <SignInPage/>}
+      {authorizationStatus === AuthorizationStatus.Authorized ? <Outlet/> : <SignInPage/>}
     </>
   );
 }
@@ -26,12 +27,14 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(verifyAuthorized());
     dispatch(fetchFilmList());
   }, [dispatch]);
 
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isFilmListLoading = useAppSelector((state) => state.isFilmListLoading);
   const films = useAppSelector((state) => state.allFilms);
-  if (isFilmListLoading) {
+  if (authorizationStatus === AuthorizationStatus.Unknown || isFilmListLoading) {
     return (
       <LoadingScreen />
     );
@@ -43,7 +46,7 @@ function App() {
         <Route path='/'>
           <Route index element={<MainPage selectedFilm={films[0]}/>}/>
           <Route path='login' element={<SignInPage/>}/>
-          <Route element={<AuthRequired isAuthorized={false}/>}>
+          <Route element={<AuthRequired authorizationStatus={authorizationStatus}/>}>
             <Route path='mylist' element={<MyListPage films={films}/>}/>
           </Route>
           <Route path='films/'>

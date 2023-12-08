@@ -3,6 +3,7 @@ import {NotFoundPage} from '../not-found/not-found';
 import {FilmInfoShort} from '../../types/film';
 import {FilmList} from '../../components/film-list';
 import {MovieTabs} from '../../components/movie-tabs.tsx';
+import {Header} from '../../components/header.tsx';
 
 export function MoviePage({films}: {films: FilmInfoShort[]}){
   const sameFilmsCount = 4;
@@ -22,25 +23,7 @@ export function MoviePage({films}: {films: FilmInfoShort[]}){
             <img src={film.previewImage} alt={film.name} />
           </div>
           <h1 className="visually-hidden">WTW</h1>
-          <header className="page-header film-card__head">
-            <div className="logo">
-              <Link to={'/'} className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </Link>
-            </div>
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
-          </header>
+          <Header extraStyle={'film-card__head'} />
           <div className="film-card__wrap">
             <div className="film-card__desc">
               <h2 className="film-card__title">{film.name}</h2>
