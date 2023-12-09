@@ -35,7 +35,7 @@ export function ReviewPage({films}: {films: FilmInfoShort[]}){
           <img src={film.previewImage} alt={film.name} width="218" height="327" />
         </div>
       </div>
-      <AddReviewForm />
+      <AddReviewForm filmId={film.id}/>
     </section>
   );
 }

@@ -1,9 +1,39 @@
-import {useState} from 'react';
-import {FilmInfoShort} from '../types/film';
+import {useEffect, useState} from 'react';
+import {FilmInfoDetail} from '../types/film';
+import {Review} from '../types/review.ts';
+import {api} from '../store';
 
 
-export function MovieTabs(props: FilmInfoShort) {
+const fetchReviews = async (filmId: string) => {
+  const {data: reviews} = await api.get<Review[]>(`/comments/${filmId}`);
+  return reviews;
+};
+
+
+const getTextRating = (rating: number) => {
+  if (rating < 3){
+    return 'Bad';
+  }
+  if (rating < 5){
+    return 'Normal';
+  }
+  if (rating < 8){
+    return 'Good';
+  }
+  if (rating < 9){
+    return 'Very good';
+  }
+  return 'Awesome';
+};
+
+
+export function MovieTabs(film: FilmInfoDetail) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  const [reviews, setReviews] = useState<Review[]>([]);
+  useEffect(() => {
+    fetchReviews(film.id).then((reviewList) => setReviews(reviewList));
+  }, [film]);
 
   const tabs = [
     {
@@ -11,17 +41,16 @@ export function MovieTabs(props: FilmInfoShort) {
       children: (
         <>
           <div className="film-rating">
-            <div className="film-rating__score">8,9</div>
+            <div className="film-rating__score">{film.rating}</div>
             <p className="film-rating__meta">
-              <span className="film-rating__level">Very good</span>
-              <span className="film-rating__count">240 ratings</span>
+              <span className="film-rating__level">{getTextRating(film.rating)}</span>
+              <span className="film-rating__count">{film.scoresCount} ratings</span>
             </p>
           </div>
           <div className="film-card__text">
-            <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustaves friend and protege.</p>
-            <p>Gustave prides himself on providing first-class service to the hotels guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustaves lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
-            <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
-            <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
+            <p>{film.description}</p>
+            <p className="film-card__director"><strong>Director: {film.director}</strong></p>
+            <p className="film-card__starring"><strong>Starring: {film.starring.join(', ')}</strong></p>
           </div>
         </>
       ),
@@ -33,23 +62,12 @@ export function MovieTabs(props: FilmInfoShort) {
           <div className="film-card__text-col">
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Director</strong>
-              <span className="film-card__details-value">Wes Anderson</span>
+              <span className="film-card__details-value">{film.director}</span>
             </p>
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Starring</strong>
               <span className="film-card__details-value">
-                Bill Murray, <br/>
-                Edward Norton, <br/>
-                Jude Law, <br/>
-                Willem Dafoe, <br/>
-                Saoirse Ronan, <br/>
-                Tony Revoloru, <br/>
-                Tilda Swinton, <br/>
-                Tom Wilkinson, <br/>
-                Owen Wilkinson, <br/>
-                Adrien Brody, <br/>
-                Ralph Fiennes, <br/>
-                Jeff Goldblum
+                {film.starring.map((star) => <>{star}<br/></>)}
               </span>
             </p>
           </div>
@@ -58,15 +76,15 @@ export function MovieTabs(props: FilmInfoShort) {
           <div className="film-card__text-col">
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Run Time</strong>
-              <span className="film-card__details-value">1h 39m</span>
+              <span className="film-card__details-value">{Math.trunc(film.runTime / 60)}h {film.runTime % 60}m</span>
             </p>
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Genre</strong>
-              <span className="film-card__details-value">{props.genre}</span>
+              <span className="film-card__details-value">{film.genre}</span>
             </p>
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Released</strong>
-              <span className="film-card__details-value">{new Date().getFullYear()}</span>
+              <span className="film-card__details-value">{film.released}</span>
             </p>
           </div>
         </div>
@@ -78,23 +96,15 @@ export function MovieTabs(props: FilmInfoShort) {
         <div className="film-card__reviews film-card__row">
           <div className="film-card__reviews-col">
             {
-              [
-                {
-                  id: '00162512-6dca-4ed3-ab1a-075cbd5c57f4',
-                  text: 'Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the directors funniest and most exquisitely designed films in years.',
-                  author: 'Kate Muir',
-                  reviewDate: new Date(),
-                  rating: '8,9',
-                },
-              ].map((review) => (
+              reviews.map((review) => (
                 <div key={review.id} className="review">
                   <blockquote className="review__quote">
-                    <p className="review__text">{review.text}</p>
+                    <p className="review__text">{review.comment}</p>
 
                     <footer className="review__details">
-                      <cite className="review__author">{review.author}</cite>
-                      <time className="review__date" dateTime={review.reviewDate.toISOString().substring(0, 10)}>
-                        {review.reviewDate.toLocaleTimeString()}
+                      <cite className="review__author">{review.user}</cite>
+                      <time className="review__date" dateTime={review.date}>
+                        {review.date.substring(0, 10)}
                       </time>
                     </footer>
                   </blockquote>
@@ -113,7 +123,7 @@ export function MovieTabs(props: FilmInfoShort) {
     <div className="film-card__wrap film-card__translate-top">
       <div className="film-card__info">
         <div className="film-card__poster film-card__poster--big">
-          <img src={props.previewImage} alt={props.name} width="218" height="327" />
+          <img src={film.posterImage} alt={film.name} width="218" height="327" />
         </div>
         <div className="film-card__desc">
           <nav className="film-nav film-card__nav">
