@@ -1,7 +1,15 @@
 import {FilmInfoShort} from '../types/film';
 import {createReducer} from '@reduxjs/toolkit';
-import {setFilmsCount, selectGenre, updateFilmList, setFilmListLoadingStatus, setAuthorizationStatus} from './action';
-import {AuthorizationStatus} from '../types/auth.ts';
+import {
+  authorizeUser,
+  logOut,
+  selectGenre,
+  setFilmListLoadingStatus,
+  setFilmsCount,
+  updateFilmList
+} from './action';
+import {AuthorizationStatus, UserData} from '../types/auth.ts';
+import {dropToken, saveToken} from '../services/token.ts';
 
 export const ALL_GENRES = 'All genres';
 export const FILMS_BATCH_SIZE = 8;
@@ -13,6 +21,7 @@ export type State = {
   filmsCount: number;
   isFilmListLoading: boolean;
   authorizationStatus: AuthorizationStatus;
+  user: UserData | undefined;
 }
 
 const initialState: State = {
@@ -22,6 +31,7 @@ const initialState: State = {
   filmsCount: FILMS_BATCH_SIZE,
   isFilmListLoading: true,
   authorizationStatus: AuthorizationStatus.Unknown,
+  user: undefined,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -47,8 +57,15 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(setFilmsCount, (state, action) => {
       state.filmsCount = action.payload;
     })
-    .addCase(setAuthorizationStatus, (state, action) => {
-      state.authorizationStatus = action.payload;
+    .addCase(authorizeUser, (state, action) => {
+      const user = action.payload;
+      state.authorizationStatus = AuthorizationStatus.Authorized;
+      saveToken(user.token);
+      state.user = user;
+    })
+    .addCase(logOut, (state) => {
+      state.authorizationStatus = AuthorizationStatus.AuthRequired;
+      dropToken();
     });
 });
 
