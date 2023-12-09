@@ -1,26 +1,51 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
-import {FilmInfoShort} from '../../types/film';
+import {FilmInfoDetail, FilmInfoShort} from '../../types/film';
 import {FilmList} from '../../components/film-list';
 import {MovieTabs} from '../../components/movie-tabs.tsx';
 import {Header} from '../../components/header.tsx';
+import {useEffect, useState} from 'react';
+import {APIRoute} from '../../store/api-action.ts';
+import {api} from '../../store';
+import {useAppSelector} from '../../hooks';
+import {AuthorizationStatus} from '../../types/auth.ts';
 
-export function MoviePage({films}: {films: FilmInfoShort[]}){
-  const sameFilmsCount = 4;
+
+const fetchFilmDetails = async (filmId: string) => {
+  const {data: filmDetail} = await api.get<FilmInfoDetail>(`${APIRoute.Films}/${filmId}`);
+  return filmDetail;
+};
+
+const fetchSimilarMovies = async (filmId: string) => {
+  const {data: similarFilms} = await api.get<FilmInfoShort[]>(`${APIRoute.Films}/${filmId}/similar`);
+  return similarFilms;
+};
+
+
+export function MoviePage(){
   const {id} = useParams();
-  const film = films.find((f) => f.id === id);
+  const [film, setFilm] = useState<FilmInfoDetail>();
+  const [sameFilms, setSameFilms] = useState<FilmInfoShort[]>([]);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  useEffect(() => {
+    if (!id){
+      return;
+    }
+    fetchFilmDetails(id).then((filmDetail) => setFilm(filmDetail));
+    fetchSimilarMovies(id).then((similarFilms) => setSameFilms(similarFilms));
+  }, [id]);
 
   if (!film){
     return <NotFoundPage/>;
   }
-  const sameFilms = films.filter((item, i) => item.genre === film.genre && i < sameFilmsCount);
 
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.previewImage} alt={film.name} />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
           <h1 className="visually-hidden">WTW</h1>
           <Header extraStyle={'film-card__head'} />
@@ -29,7 +54,7 @@ export function MoviePage({films}: {films: FilmInfoShort[]}){
               <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{new Date().getFullYear()}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">
@@ -45,7 +70,12 @@ export function MoviePage({films}: {films: FilmInfoShort[]}){
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
+                <Link
+                  to={authorizationStatus === AuthorizationStatus.Authorized ? `/films/${film.id}/review` : '/login'}
+                  className="btn film-card__button"
+                >
+                  Add review
+                </Link>
               </div>
             </div>
           </div>

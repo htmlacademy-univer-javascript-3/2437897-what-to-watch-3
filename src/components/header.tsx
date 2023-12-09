@@ -2,6 +2,8 @@ import {Link} from 'react-router-dom';
 import {ReactNode} from 'react';
 import {useAppSelector} from '../hooks';
 import {AuthorizationStatus} from '../types/auth.ts';
+import {logOut} from '../store/action.ts';
+import {useDispatch} from 'react-redux';
 
 export type HeaderProps = {
   extraStyle?: string;
@@ -9,7 +11,10 @@ export type HeaderProps = {
 };
 
 export function Header({extraStyle = '', children = undefined}: HeaderProps){
+  const dispatch = useDispatch();
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const user = useAppSelector((state) => state.user);
+
   return (
     <header className={`page-header ${extraStyle}`}>
       <div className="logo">
@@ -21,7 +26,7 @@ export function Header({extraStyle = '', children = undefined}: HeaderProps){
       </div>
       {children}
       {
-        authorizationStatus === AuthorizationStatus.AuthRequired ? (
+        authorizationStatus === AuthorizationStatus.AuthRequired || user === undefined ? (
           <div className="user-block">
             <Link to={'/login'} className="user-block__link">Sign in</Link>
           </div>
@@ -29,11 +34,11 @@ export function Header({extraStyle = '', children = undefined}: HeaderProps){
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                <img src={user.avatarUrl} alt="User avatar" width="63" height="63"/>
               </div>
             </li>
             <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
+              <a type="button" className="user-block__link" onClick={() => dispatch(logOut())}>Sign out</a>
             </li>
           </ul>
         )
