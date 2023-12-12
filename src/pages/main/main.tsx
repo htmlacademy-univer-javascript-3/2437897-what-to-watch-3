@@ -2,23 +2,15 @@ import {FilmList} from '../../components/film-list';
 import {FilmInfoShort} from '../../types/film';
 import {GenreList} from '../../components/genre-list';
 import {useAppSelector} from '../../hooks/index';
-import {useDispatch} from 'react-redux';
-import {useEffect} from 'react';
-import {setFilmsCount} from '../../store/action';
-import {FILMS_BATCH_SIZE} from '../../store/reducer';
 import {Header} from '../../components/header.tsx';
+import {getGenreFilms} from '../../store/film-process/selectors';
 
 export type MainPageProps = {
   selectedFilm: FilmInfoShort;
 }
 
 function MainPage({selectedFilm}: MainPageProps){
-  const films = useAppSelector((state) => state.genreFilms);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(setFilmsCount(FILMS_BATCH_SIZE));
-  }, [dispatch]);
+  const films = useAppSelector(getGenreFilms);
 
   return (
     <>

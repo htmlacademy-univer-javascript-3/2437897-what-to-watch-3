@@ -9,6 +9,7 @@ import {APIRoute} from '../../store/api-action.ts';
 import {api} from '../../store';
 import {useAppSelector} from '../../hooks';
 import {AuthorizationStatus} from '../../types/auth.ts';
+import {getAuthorizationState} from '../../store/user-process/selectors';
 
 
 const fetchFilmDetails = async (filmId: string) => {
@@ -26,7 +27,7 @@ export function MoviePage(){
   const {id} = useParams();
   const [film, setFilm] = useState<FilmInfoDetail>();
   const [sameFilms, setSameFilms] = useState<FilmInfoShort[]>([]);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationState);
 
   useEffect(() => {
     if (!id){

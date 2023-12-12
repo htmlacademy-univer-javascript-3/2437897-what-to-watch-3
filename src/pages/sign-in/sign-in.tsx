@@ -4,14 +4,16 @@ import {FormEvent, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {login} from '../../store/api-action.ts';
 import {AuthorizationStatus} from '../../types/auth.ts';
+import {getAuthorizationState} from '../../store/user-process/selectors';
+
+const emailRegex = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/;
 
 export function SignInPage(){
   const dispatch = useAppDispatch();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const authStatus = useAppSelector((state) => state.authorizationStatus);
-  const emailRegex = /^\w+([.-]?\w+)@\w+([.-]?\w+)(.\w{2,3})+$/;
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{2,}$/;
+  const authStatus = useAppSelector(getAuthorizationState);
   const [errorText, setErrorText] = useState<string>();
 
   if (authStatus === AuthorizationStatus.Authorized){

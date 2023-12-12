@@ -11,6 +11,8 @@ import {useAppDispatch, useAppSelector} from './hooks/index';
 import {LoadingScreen} from './pages/loading-screen/loading-screen';
 import {fetchFilmList, verifyAuthorized} from './store/api-action';
 import {AuthorizationStatus} from './types/auth.ts';
+import {getAllFilms, getIsFilmsLoading} from './store/film-process/selectors';
+import {getAuthorizationState} from './store/user-process/selectors';
 
 
 function AuthRequired({authorizationStatus} : { authorizationStatus: AuthorizationStatus }){
@@ -31,9 +33,9 @@ function App() {
     dispatch(fetchFilmList());
   }, [dispatch]);
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isFilmListLoading = useAppSelector((state) => state.isFilmListLoading);
-  const films = useAppSelector((state) => state.allFilms);
+  const authorizationStatus = useAppSelector(getAuthorizationState);
+  const isFilmListLoading = useAppSelector(getIsFilmsLoading);
+  const films = useAppSelector(getAllFilms);
   if (authorizationStatus === AuthorizationStatus.Unknown || isFilmListLoading) {
     return (
       <LoadingScreen />
