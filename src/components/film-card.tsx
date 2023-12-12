@@ -1,30 +1,22 @@
 import {Link} from 'react-router-dom';
 import {FilmInfoShort} from '../types/film';
-import {MouseEventHandler, MouseEvent, useState} from 'react';
+import {useState} from 'react';
 import {VideoPlayer} from './video-player.tsx';
 
-type FilmCardProps = {
-  onMouseEnter: MouseEventHandler<HTMLElement> | undefined;
-  onMouseLeave: MouseEventHandler<HTMLElement> | undefined;
-}
-
-export function FilmCard(props: FilmInfoShort & FilmCardProps){
+export function FilmCard(props: FilmInfoShort){
   const [shouldPlayVideo, setShouldPlayVideo] = useState<boolean>(false);
   const [playVideoTimer, setPlayVideoTimer] = useState<NodeJS.Timeout | undefined>(undefined);
 
-  const onMouseEnter = (event: MouseEvent<HTMLElement>) => {
+  const onMouseEnter = () => {
     setPlayVideoTimer(
       setTimeout(() => {
         setShouldPlayVideo(true);
       }, 1000));
-
-    props.onMouseEnter?.(event);
   };
 
-  const onMouseLeave = (event: MouseEvent<HTMLElement>) => {
+  const onMouseLeave = () => {
     clearTimeout(playVideoTimer);
     setShouldPlayVideo(false);
-    props.onMouseLeave?.(event);
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useState, SyntheticEvent } from 'react';
+import { useState, SyntheticEvent, Fragment } from 'react';
 import {api} from '../store';
 import {NewReview, Review} from '../types/review.ts';
 import {useNavigate} from 'react-router-dom';
@@ -55,7 +55,7 @@ export function AddReviewForm({filmId}: {filmId: string}) {
             Array.from({length: maxRating}, () => false).map((_, idx: number) => {
               const formRatingValue = maxRating - idx;
               return (
-                <div key={formRatingValue}>
+                <Fragment key={formRatingValue}>
                   <input
                     className="rating__input"
                     id={`star-${formRatingValue}`}
@@ -65,7 +65,7 @@ export function AddReviewForm({filmId}: {filmId: string}) {
                     onChange={() => setReview({...review, rating: formRatingValue})}
                   />
                   <label className="rating__label" htmlFor={`star-${formRatingValue}`}>Rating {formRatingValue}</label>
-                </div>
+                </Fragment>
               );
             }
             )

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, Fragment} from 'react';
 import {FilmInfoDetail} from '../types/film';
 import {Review} from '../types/review.ts';
 import {api} from '../store';
@@ -67,7 +67,7 @@ export function MovieTabs(film: FilmInfoDetail) {
             <p className="film-card__details-item">
               <strong className="film-card__details-name">Starring</strong>
               <span className="film-card__details-value">
-                {film.starring.map((star) => <>{star}<br/></>)}
+                {film.starring.map((star) => <Fragment key={star}>{star}<br/></Fragment>)}
               </span>
             </p>
           </div>

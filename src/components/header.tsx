@@ -4,6 +4,7 @@ import {useAppSelector} from '../hooks';
 import {AuthorizationStatus} from '../types/auth.ts';
 import {logOut} from '../store/action.ts';
 import {useDispatch} from 'react-redux';
+import {getAuthorizationState, getUser} from '../store/user-process/selectors';
 
 export type HeaderProps = {
   extraStyle?: string;
@@ -12,8 +13,8 @@ export type HeaderProps = {
 
 export function Header({extraStyle = '', children = undefined}: HeaderProps){
   const dispatch = useDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const user = useAppSelector((state) => state.user);
+  const authorizationStatus = useAppSelector(getAuthorizationState);
+  const user = useAppSelector(getUser);
 
   return (
     <header className={`page-header ${extraStyle}`}>

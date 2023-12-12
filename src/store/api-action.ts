@@ -1,10 +1,11 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {AppDispatch} from '../hooks/index';
-import {State} from './reducer';
 import {AxiosInstance} from 'axios';
-import {authorizeUser, logOut, setFilmListLoadingStatus, updateFilmList} from './action';
+import {authorizeUser, logOut} from './action';
 import {FilmInfoShort} from '../types/film';
 import {AuthData, UserData} from '../types/auth.ts';
+import {setFilmListLoadingStatus, updateFilmList} from './film-process/film-process';
+import {State} from './index.ts';
 
 export enum APIRoute {
   Films = '/films',
