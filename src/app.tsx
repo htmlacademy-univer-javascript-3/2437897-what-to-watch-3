@@ -55,7 +55,7 @@ function App() {
             <Route path=':id/review' element={<ReviewPage films={films}/>}/>
             <Route path=':id/' element={<MoviePage/>}/>
           </Route>
-          <Route path='player/:id' element={<Player films={films}/>}/>
+          <Route path='player/:id' element={<Player/>}/>
         </Route>
         <Route path='*' element={<NotFoundPage/>}/>
       </Routes>

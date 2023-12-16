@@ -4,6 +4,7 @@ import {GenreList} from '../../components/genre-list';
 import {useAppSelector} from '../../hooks/index';
 import {Header} from '../../components/header.tsx';
 import {getGenreFilms} from '../../store/film-process/selectors';
+import {PlayFilmButton} from '../../components/play-film-button.tsx';
 
 export type MainPageProps = {
   selectedFilm: FilmInfoShort;
@@ -35,12 +36,7 @@ function MainPage({selectedFilm}: MainPageProps){
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"/>
-                  </svg>
-                  <span>Play</span>
-                </button>
+                <PlayFilmButton filmId={selectedFilm.id}/>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"/>

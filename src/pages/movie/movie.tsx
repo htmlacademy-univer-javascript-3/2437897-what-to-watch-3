@@ -1,21 +1,18 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
-import {FilmInfoDetail, FilmInfoShort} from '../../types/film';
+import {FilmInfoShort} from '../../types/film';
 import {FilmList} from '../../components/film-list';
 import {MovieTabs} from '../../components/movie-tabs.tsx';
 import {Header} from '../../components/header.tsx';
 import {useEffect, useState} from 'react';
-import {APIRoute} from '../../store/api-action.ts';
+import {APIRoute, fetchFilmDetail} from '../../store/api-action.ts';
 import {api} from '../../store';
-import {useAppSelector} from '../../hooks';
+import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AuthorizationStatus} from '../../types/auth.ts';
 import {getAuthorizationState} from '../../store/user-process/selectors';
-
-
-const fetchFilmDetails = async (filmId: string) => {
-  const {data: filmDetail} = await api.get<FilmInfoDetail>(`${APIRoute.Films}/${filmId}`);
-  return filmDetail;
-};
+import {getSelectedFilm, isFilmDetailLoading} from '../../store/film-process/selectors.ts';
+import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
+import {PlayFilmButton} from '../../components/play-film-button.tsx';
 
 const fetchSimilarMovies = async (filmId: string) => {
   const {data: similarFilms} = await api.get<FilmInfoShort[]>(`${APIRoute.Films}/${filmId}/similar`);
@@ -25,7 +22,9 @@ const fetchSimilarMovies = async (filmId: string) => {
 
 export function MoviePage(){
   const {id} = useParams();
-  const [film, setFilm] = useState<FilmInfoDetail>();
+  const dispatch = useAppDispatch();
+  const film = useAppSelector(getSelectedFilm);
+  const isFilmLoading = useAppSelector(isFilmDetailLoading);
   const [sameFilms, setSameFilms] = useState<FilmInfoShort[]>([]);
   const authorizationStatus = useAppSelector(getAuthorizationState);
 
@@ -33,9 +32,13 @@ export function MoviePage(){
     if (!id){
       return;
     }
-    fetchFilmDetails(id).then((filmDetail) => setFilm(filmDetail));
+    dispatch(fetchFilmDetail(id));
     fetchSimilarMovies(id).then((similarFilms) => setSameFilms(similarFilms));
-  }, [id]);
+  }, [id, dispatch]);
+
+  if (isFilmLoading){
+    return <LoadingScreen/>;
+  }
 
   if (!film){
     return <NotFoundPage/>;
@@ -58,12 +61,7 @@ export function MoviePage(){
                 <span className="film-card__year">{film.released}</span>
               </p>
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"/>
-                  </svg>
-                  <span>Play</span>
-                </button>
+                <PlayFilmButton filmId={film.id}/>
                 <button className="btn btn--list film-card__button" type="button">
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"/>
