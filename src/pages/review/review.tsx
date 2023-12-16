@@ -1,12 +1,23 @@
 import {Link, useParams} from 'react-router-dom';
 import {NotFoundPage} from '../not-found/not-found';
-import {FilmInfoShort} from '../../types/film';
 import {AddReviewForm} from '../../components/add-review-form';
 import {Header} from '../../components/header.tsx';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {getSelectedFilm} from '../../store/film-process/selectors.ts';
+import {useEffect} from 'react';
+import {fetchFilmDetail} from '../../store/api-action.ts';
 
-export function ReviewPage({films}: {films: FilmInfoShort[]}){
+export function ReviewPage(){
   const {id} = useParams();
-  const film = films.find((f) => f.id === id);
+  const dispatch = useAppDispatch();
+  const film = useAppSelector(getSelectedFilm);
+
+  useEffect(() => {
+    if (!id){
+      return;
+    }
+    dispatch(fetchFilmDetail(id));
+  }, [id, dispatch]);
 
   if (!film){
     return <NotFoundPage/>;
@@ -16,7 +27,7 @@ export function ReviewPage({films}: {films: FilmInfoShort[]}){
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.previewImage} alt={film.name} />
+          <img src={film.backgroundImage} alt={film.name} />
         </div>
         <h1 className="visually-hidden">WTW</h1>
         <Header>
@@ -32,7 +43,7 @@ export function ReviewPage({films}: {films: FilmInfoShort[]}){
           </nav>
         </Header>
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.previewImage} alt={film.name} width="218" height="327" />
+          <img src={film.posterImage} alt={film.name} width="218" height="327" />
         </div>
       </div>
       <AddReviewForm filmId={film.id}/>

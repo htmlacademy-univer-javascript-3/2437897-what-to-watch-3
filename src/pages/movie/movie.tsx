@@ -13,6 +13,7 @@ import {getAuthorizationState} from '../../store/user-process/selectors';
 import {getSelectedFilm, isFilmDetailLoading} from '../../store/film-process/selectors.ts';
 import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
 import {PlayFilmButton} from '../../components/play-film-button.tsx';
+import {FavoriteButton} from '../../components/favorite-button.tsx';
 
 const fetchSimilarMovies = async (filmId: string) => {
   const {data: similarFilms} = await api.get<FilmInfoShort[]>(`${APIRoute.Films}/${filmId}/similar`);
@@ -62,13 +63,7 @@ export function MoviePage(){
               </p>
               <div className="film-card__buttons">
                 <PlayFilmButton filmId={film.id}/>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"/>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <FavoriteButton film={film}/>
                 <Link
                   to={authorizationStatus === AuthorizationStatus.Authorized ? `/films/${film.id}/review` : '/login'}
                   className="btn film-card__button"

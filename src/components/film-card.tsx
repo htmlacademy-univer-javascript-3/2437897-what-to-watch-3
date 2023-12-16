@@ -31,7 +31,7 @@ export function FilmCard(props: FilmInfoShort){
         />
       </div>
       <h3 className="small-film-card__title">
-        <Link to={`films/${props.id}`} className="small-film-card__link">{props.name}</Link>
+        <Link to={`/films/${props.id}`} className="small-film-card__link">{props.name}</Link>
       </h3>
     </article>
   );
