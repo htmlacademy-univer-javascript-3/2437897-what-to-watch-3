@@ -19,7 +19,7 @@ const fetchSimilarMovies = async (filmId: string) => {
   const {data: similarFilms} = await api.get<FilmInfoShort[]>(`${APIRoute.Films}/${filmId}/similar`);
   return similarFilms;
 };
-
+const SIMILAR_FILMS_MAX_COUNT = 4;
 
 export function MoviePage(){
   const {id} = useParams();
@@ -79,7 +79,7 @@ export function MoviePage(){
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList films={sameFilms}/>
+          <FilmList films={sameFilms} maxCount={SIMILAR_FILMS_MAX_COUNT}/>
         </section>
         <footer className="page-footer">
           <div className="logo">

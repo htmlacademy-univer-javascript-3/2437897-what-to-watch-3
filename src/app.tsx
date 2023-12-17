@@ -52,7 +52,9 @@ function App() {
             <Route path='mylist' element={<MyListPage/>}/>
           </Route>
           <Route path='films/'>
-            <Route path=':id/review' element={<ReviewPage/>}/>
+            <Route element={<AuthRequired authorizationStatus={authorizationStatus}/>}>
+              <Route path=':id/review' element={<ReviewPage/>}/>
+            </Route>
             <Route path=':id/' element={<MoviePage/>}/>
           </Route>
           <Route path='player/:id' element={<Player/>}/>

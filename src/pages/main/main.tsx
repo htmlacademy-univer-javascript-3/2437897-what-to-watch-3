@@ -1,17 +1,16 @@
 import {FilmList} from '../../components/film-list';
 import {GenreList} from '../../components/genre-list';
-import {useAppSelector} from '../../hooks/index';
+import {useAppDispatch, useAppSelector} from '../../hooks/index';
 import {Header} from '../../components/header.tsx';
 import {getGenreFilms, getSelectedFilm} from '../../store/film-process/selectors';
 import {PlayFilmButton} from '../../components/play-film-button.tsx';
 import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
 import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
 import {fetchFilmDetail} from '../../store/api-action.ts';
 import {FavoriteButton} from '../../components/favorite-button.tsx';
 
 function MainPage(){
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const films = useAppSelector(getGenreFilms);
   const selectedFilm = useAppSelector(getSelectedFilm);
 

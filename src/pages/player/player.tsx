@@ -17,7 +17,7 @@ const formatLeftTime = (timeSeconds: number) => {
   }
   res.push(minutes);
   res.push(timeSeconds);
-  return res.map((numericTime) => numericTime.toString().padStart(2, '0')).join(':');
+  return `-${res.map((numericTime) => numericTime.toString().padStart(2, '0')).join(':')}`;
 };
 
 export function Player(){

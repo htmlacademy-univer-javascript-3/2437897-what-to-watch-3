@@ -2,7 +2,8 @@ import {AuthorizationStatus, UserData} from '../../types/auth';
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../namespace';
 import {authorizeUser, logOut} from '../action';
-import {dropToken, saveToken} from '../../services/token';
+import {dropToken, getToken, saveToken} from '../../services/token';
+import {api} from '../index.ts';
 
 export type UserProcess = {
   authorizationStatus: AuthorizationStatus;
@@ -24,6 +25,12 @@ export const userProcess = createSlice({
         const user = action.payload;
         state.authorizationStatus = AuthorizationStatus.Authorized;
         saveToken(user.token);
+        api.interceptors.request.use((config) => {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          config.headers.common['X-Token'] = getToken();
+          return config;
+        });
         state.user = user;
       })
       .addCase(logOut, (state) => {
