@@ -1,22 +1,34 @@
 import {FilmList} from '../../components/film-list';
-import {FilmInfoShort} from '../../types/film';
 import {GenreList} from '../../components/genre-list';
-import {useAppSelector} from '../../hooks/index';
+import {useAppDispatch, useAppSelector} from '../../hooks/index';
 import {Header} from '../../components/header.tsx';
-import {getGenreFilms} from '../../store/film-process/selectors';
+import {getGenreFilms, getSelectedFilm} from '../../store/film-process/selectors';
+import {PlayFilmButton} from '../../components/play-film-button.tsx';
+import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
+import {useEffect} from 'react';
+import {fetchFilmDetail} from '../../store/api-action.ts';
+import {FavoriteButton} from '../../components/favorite-button.tsx';
 
-export type MainPageProps = {
-  selectedFilm: FilmInfoShort;
-}
-
-function MainPage({selectedFilm}: MainPageProps){
+function MainPage(){
+  const dispatch = useAppDispatch();
   const films = useAppSelector(getGenreFilms);
+  const selectedFilm = useAppSelector(getSelectedFilm);
+
+  useEffect(() => {
+    if (!selectedFilm && films.length > 0){
+      dispatch(fetchFilmDetail(films[0].id));
+    }
+  }, [dispatch, selectedFilm, films]);
+
+  if (!selectedFilm){
+    return <LoadingScreen/>;
+  }
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={selectedFilm.previewImage} alt={selectedFilm.name}/>
+          <img src={selectedFilm.backgroundImage} alt={selectedFilm.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -24,7 +36,7 @@ function MainPage({selectedFilm}: MainPageProps){
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={selectedFilm.previewImage} alt={selectedFilm.name} width="218" height="327"/>
+              <img src={selectedFilm.posterImage} alt={selectedFilm.name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
@@ -35,19 +47,8 @@ function MainPage({selectedFilm}: MainPageProps){
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"/>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"/>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <PlayFilmButton filmId={selectedFilm.id}/>
+                <FavoriteButton film={selectedFilm}/>
               </div>
             </div>
           </div>

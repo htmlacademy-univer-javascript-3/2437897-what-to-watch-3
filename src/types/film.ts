@@ -1,15 +1,19 @@
-export type FilmInfoShort = {
+export interface FilmBase {
   id: string;
   name: string;
-  previewImage: string;
   genre: string;
+}
+
+export interface FilmInfoShort extends FilmBase {
+  previewImage: string;
   previewVideoLink: string;
 }
 
+export interface FavoriteFilm extends FilmInfoShort {
+  isFavorite: boolean;
+}
 
-export type FilmInfoDetail = {
-  id: string;
-  name: string;
+export interface FilmInfoDetail extends FilmBase {
   posterImage: string;
   backgroundImage: string;
   backgroundColor: string;
@@ -20,7 +24,6 @@ export type FilmInfoDetail = {
   director: string;
   starring: string[];
   runTime: number;
-  genre: string;
   released: number;
   isFavorite?: boolean;
 }

@@ -26,6 +26,8 @@ const getTextRating = (rating: number) => {
   return 'Awesome';
 };
 
+const formatRawDate = (date: string) => new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: '2-digit' });
+
 
 export function MovieTabs(film: FilmInfoDetail) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
@@ -104,7 +106,7 @@ export function MovieTabs(film: FilmInfoDetail) {
                     <footer className="review__details">
                       <cite className="review__author">{review.user}</cite>
                       <time className="review__date" dateTime={review.date}>
-                        {review.date.substring(0, 10)}
+                        {formatRawDate(review.date)}
                       </time>
                     </footer>
                   </blockquote>

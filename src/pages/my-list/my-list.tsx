@@ -1,15 +1,18 @@
 import {FilmList} from '../../components/film-list';
-import {FilmInfoShort} from '../../types/film';
 import {Link} from 'react-router-dom';
 import {Header} from '../../components/header.tsx';
+import {useAppSelector} from '../../hooks';
+import {getFavoriteFilms} from '../../store/film-process/selectors.ts';
 
-export function MyListPage({films}: {films: FilmInfoShort[]}){
+export function MyListPage(){
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+
   return (
     <div className="user-page">
       <Header extraStyle={'user-page__head'} />
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-        <FilmList films={films}/>
+        <FilmList films={favoriteFilms}/>
       </section>
 
       <footer className="page-footer">
