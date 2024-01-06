@@ -55,6 +55,9 @@ export const filmsProcess = createSlice({
       .addCase(fetchFilmDetail.pending, (state) => {
         state.isFilmDetailLoading = true;
       })
+      .addCase(fetchFilmDetail.rejected, (state) => {
+        state.isFilmDetailLoading = false;
+      })
       .addCase(fetchFilmDetail.fulfilled, (state, action) => {
         state.selectedFilm = action.payload;
         state.isFilmDetailLoading = false;
