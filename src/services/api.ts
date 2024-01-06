@@ -1,9 +1,9 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {getToken} from './token.ts';
 import {toast} from 'react-toastify';
-import {StatusCodes} from "http-status-codes";
-import {api} from "../store";
-import {FilmInfoShort} from "../types/film.ts";
+import {StatusCodes} from 'http-status-codes';
+import {api} from '../store';
+import {FilmInfoShort} from '../types/film.ts';
 
 
 const BACKEND_URL = 'https://13.design.pages.academy/wtw';
@@ -23,12 +23,12 @@ const StatusCodeMapping: Record<number, boolean> = {
 const shouldDisplayError = (response: AxiosResponse) => StatusCodeMapping[response.status];
 
 export const getAPIClient = (): AxiosInstance => {
-  const api = axios.create({
+  const axiosInstance = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
   });
 
-  api.interceptors.request.use(
+  axiosInstance.interceptors.request.use(
     (config: AxiosRequestConfig) => {
       const token = getToken();
 
@@ -40,7 +40,7 @@ export const getAPIClient = (): AxiosInstance => {
     },
   );
 
-  api.interceptors.response.use(
+  axiosInstance.interceptors.response.use(
     (response) => response,
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
@@ -52,11 +52,11 @@ export const getAPIClient = (): AxiosInstance => {
     }
   );
 
-  return api;
+  return axiosInstance;
 };
 
 export const fetchFavouriteFilms = async () => {
   const {data} = await api.get<FilmInfoShort[]>('favorite');
   return data;
-}
+};
 

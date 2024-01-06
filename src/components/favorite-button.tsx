@@ -2,10 +2,10 @@ import {useAppSelector} from '../hooks';
 import {useNavigate} from 'react-router-dom';
 import {getAuthorizationState} from '../store/user-process/selectors.ts';
 import {AuthorizationStatus} from '../types/auth.ts';
-import {useEffect, useState} from "react";
-import {api} from "../store";
-import {FavoriteFilm} from "../types/film.ts";
-import {fetchFavouriteFilms} from "../services/api.ts";
+import {useEffect, useState} from 'react';
+import {api} from '../store';
+import {FavoriteFilm} from '../types/film.ts';
+import {fetchFavouriteFilms} from '../services/api.ts';
 
 const changeFavoriteFilmStatus = async (filmId: string, status: boolean) => {
   const {data} = await api.post<FavoriteFilm>(`favorite/${filmId}/${Number(status)}`);
@@ -27,11 +27,11 @@ export function FavoriteButton({filmId} : {filmId: string}){
       return;
     }
 
-    fetchFavouriteFilms().then(films => {
+    fetchFavouriteFilms().then((films) => {
       setFavouriteFilmsCount(films.length);
-      setIsFavourite(films.find(f => f.id === filmId) !== undefined)
+      setIsFavourite(films.find((f) => f.id === filmId) !== undefined);
     });
-  }, [authorizationState]);
+  }, [filmId, authorizationState]);
 
   const onClick = () => {
     if (authorizationState !== AuthorizationStatus.Authorized) {

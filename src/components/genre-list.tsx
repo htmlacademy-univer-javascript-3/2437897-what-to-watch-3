@@ -1,7 +1,7 @@
 import {useAppDispatch, useAppSelector} from '../hooks/index';
 import {ALL_GENRES, selectGenre} from '../store/film-process/film-process';
 import {getAllFilms, getGenre, getGenreFilms} from '../store/film-process/selectors';
-import {FilmList} from "./film-list.tsx";
+import {FilmList} from './film-list.tsx';
 
 
 export function GenreList() {

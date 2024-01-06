@@ -22,7 +22,7 @@ function AuthRequired({authorizationStatus} : { authorizationStatus: Authorizati
     if (authorizationStatus !== AuthorizationStatus.Authorized){
       navigate('/login');
     }
-  }, [authorizationStatus]);
+  }, [navigate, authorizationStatus]);
 
   return <Outlet/>;
 }

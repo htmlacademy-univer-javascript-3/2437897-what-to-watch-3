@@ -1,22 +1,22 @@
 import {GenreList} from '../../components/genre-list';
 import {Header} from '../../components/header.tsx';
-import {api} from "../../store";
-import {PromoFilm} from "../../types/film.ts";
-import {useEffect, useState} from "react";
-import {LoadingScreen} from "../loading-screen/loading-screen.tsx";
+import {api} from '../../store';
+import {PromoFilm} from '../../types/film.ts';
+import {useEffect, useState} from 'react';
+import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
 import {PlayFilmButton} from '../../components/play-film-button.tsx';
 import {FavoriteButton} from '../../components/favorite-button.tsx';
 
 const fetchPromoFilm = async () => {
-  const {data: promoFilm} = await api.get<PromoFilm>(`/promo`);
+  const {data: promoFilm} = await api.get<PromoFilm>('/promo');
   return promoFilm;
 };
 
 function MainPage(){
-  const [selectedFilm, setSelectedFilm]= useState<PromoFilm>();
+  const [selectedFilm, setSelectedFilm] = useState<PromoFilm>();
 
   useEffect(() => {
-    fetchPromoFilm().then(promoFilm => setSelectedFilm(promoFilm));
+    fetchPromoFilm().then((promoFilm) => setSelectedFilm(promoFilm));
   }, []);
 
   if (!selectedFilm){

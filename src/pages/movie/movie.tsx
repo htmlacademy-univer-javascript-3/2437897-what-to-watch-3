@@ -67,8 +67,7 @@ export function MoviePage(){
                 {authorizationStatus === AuthorizationStatus.Authorized &&
                   <Link to={`/films/${film.id}/review`} className="btn film-card__button">
                     Add review
-                  </Link>
-                }
+                  </Link>}
               </div>
             </div>
           </div>

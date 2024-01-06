@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './app.tsx';
 import {Provider} from 'react-redux';
 import {store} from './store/index';
-import {ToastContainer} from "react-toastify";
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(
