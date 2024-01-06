@@ -34,10 +34,10 @@ export function ReviewPage(){
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
+                <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <Link to={'/review'} className="breadcrumbs__link">Add review</Link>
+                <Link to={'#'} className="breadcrumbs__link">Add review</Link>
               </li>
             </ul>
           </nav>

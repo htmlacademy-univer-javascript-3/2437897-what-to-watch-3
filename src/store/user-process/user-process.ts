@@ -2,7 +2,7 @@ import {AuthorizationStatus, UserData} from '../../types/auth';
 import {createSlice} from '@reduxjs/toolkit';
 import {NameSpace} from '../namespace';
 import {authorizeUser, logOut} from '../action';
-import {dropToken, getToken, saveToken} from '../../services/token';
+import {dropToken, saveToken} from '../../services/token';
 import {api} from '../index.ts';
 
 export type UserProcess = {
@@ -28,14 +28,14 @@ export const userProcess = createSlice({
         api.interceptors.request.use((config) => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          config.headers.common['X-Token'] = getToken();
+          config.headers.common['X-Token'] = user.token;
           return config;
         });
         state.user = user;
       })
       .addCase(logOut, (state) => {
-        state.authorizationStatus = AuthorizationStatus.AuthRequired;
         dropToken();
+        state.authorizationStatus = AuthorizationStatus.AuthRequired;
       });
   }
 });

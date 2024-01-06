@@ -1,24 +1,23 @@
-import {FilmList} from '../../components/film-list';
 import {GenreList} from '../../components/genre-list';
-import {useAppDispatch, useAppSelector} from '../../hooks/index';
 import {Header} from '../../components/header.tsx';
-import {getGenreFilms, getSelectedFilm} from '../../store/film-process/selectors';
-import {PlayFilmButton} from '../../components/play-film-button.tsx';
+import {api} from '../../store';
+import {PromoFilm} from '../../types/film.ts';
+import {useEffect, useState} from 'react';
 import {LoadingScreen} from '../loading-screen/loading-screen.tsx';
-import {useEffect} from 'react';
-import {fetchFilmDetail} from '../../store/api-action.ts';
+import {PlayFilmButton} from '../../components/play-film-button.tsx';
 import {FavoriteButton} from '../../components/favorite-button.tsx';
 
+const fetchPromoFilm = async () => {
+  const {data: promoFilm} = await api.get<PromoFilm>('/promo');
+  return promoFilm;
+};
+
 function MainPage(){
-  const dispatch = useAppDispatch();
-  const films = useAppSelector(getGenreFilms);
-  const selectedFilm = useAppSelector(getSelectedFilm);
+  const [selectedFilm, setSelectedFilm] = useState<PromoFilm>();
 
   useEffect(() => {
-    if (!selectedFilm && films.length > 0){
-      dispatch(fetchFilmDetail(films[0].id));
-    }
-  }, [dispatch, selectedFilm, films]);
+    fetchPromoFilm().then((promoFilm) => setSelectedFilm(promoFilm));
+  }, []);
 
   if (!selectedFilm){
     return <LoadingScreen/>;
@@ -43,12 +42,12 @@ function MainPage(){
               <h2 className="film-card__title">{selectedFilm.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{selectedFilm.genre}</span>
-                <span className="film-card__year">{new Date().getFullYear()}</span>
+                <span className="film-card__year">{selectedFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
                 <PlayFilmButton filmId={selectedFilm.id}/>
-                <FavoriteButton film={selectedFilm}/>
+                <FavoriteButton filmId={selectedFilm.id}/>
               </div>
             </div>
           </div>
@@ -60,7 +59,6 @@ function MainPage(){
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenreList/>
-          <FilmList films={films}/>
         </section>
 
         <footer className="page-footer">

@@ -13,17 +13,19 @@ export interface FavoriteFilm extends FilmInfoShort {
   isFavorite: boolean;
 }
 
-export interface FilmInfoDetail extends FilmBase {
+export interface PromoFilm extends FavoriteFilm {
   posterImage: string;
   backgroundImage: string;
-  backgroundColor: string;
   videoLink: string;
+  released: number;
+}
+
+export interface FilmInfoDetail extends PromoFilm {
+  backgroundColor: string;
   description: string;
   rating: number;
   scoresCount: number;
   director: string;
   starring: string[];
   runTime: number;
-  released: number;
-  isFavorite?: boolean;
 }
