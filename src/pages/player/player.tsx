@@ -110,7 +110,7 @@ export function Player(){
             </svg>
             <span>Play</span>
           </button>
-          <div className="player__name">Transpotting</div>
+          <div className="player__name">{film.name}</div>
 
           <button type="button" className="player__full-screen" onClick={processFullScreen}>
             <svg viewBox="0 0 27 27" width="27" height="27">

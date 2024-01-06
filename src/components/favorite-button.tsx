@@ -1,35 +1,57 @@
-import {FilmInfoDetail} from '../types/film.ts';
-import {useAppDispatch, useAppSelector} from '../hooks';
+import {useAppSelector} from '../hooks';
 import {useNavigate} from 'react-router-dom';
 import {getAuthorizationState} from '../store/user-process/selectors.ts';
 import {AuthorizationStatus} from '../types/auth.ts';
-import {setFavoriteFilm} from '../store/api-action.ts';
-import {
-  getFavoriteFilms,
-  getIsFavoriteFilmUpdating,
-} from '../store/film-process/selectors.ts';
+import {useEffect, useState} from 'react';
+import {api} from '../store';
+import {FavoriteFilm} from '../types/film.ts';
+import {fetchFavouriteFilms} from '../services/api.ts';
 
-export function FavoriteButton({film} : {film: FilmInfoDetail}){
-  const dispatch = useAppDispatch();
+const changeFavoriteFilmStatus = async (filmId: string, status: boolean) => {
+  const {data} = await api.post<FavoriteFilm>(`favorite/${filmId}/${Number(status)}`);
+  return data;
+};
+
+export function FavoriteButton({filmId} : {filmId: string}){
+  const DEFAULT_FILMS_COUNT = 0;
   const navigate = useNavigate();
   const authorizationState = useAppSelector(getAuthorizationState);
-  const isFavoriteFilmUpdating = useAppSelector(getIsFavoriteFilmUpdating);
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const [isFavoriteFilmUpdating, setIsFavouriteFilmUpdating] = useState(false);
+  const [favoriteFilmsCount, setFavouriteFilmsCount] = useState<number>(DEFAULT_FILMS_COUNT);
+  const [isFavourite, setIsFavourite] = useState(false);
+
+  useEffect(() => {
+    if (authorizationState !== AuthorizationStatus.Authorized){
+      setFavouriteFilmsCount(DEFAULT_FILMS_COUNT);
+      setIsFavourite(false);
+      return;
+    }
+
+    fetchFavouriteFilms().then((films) => {
+      setFavouriteFilmsCount(films.length);
+      setIsFavourite(films.find((f) => f.id === filmId) !== undefined);
+    });
+  }, [filmId, authorizationState]);
 
   const onClick = () => {
     if (authorizationState !== AuthorizationStatus.Authorized) {
       navigate('/login');
     }
-    dispatch(setFavoriteFilm({filmId: film.id, status: !film.isFavorite}));
+    setIsFavouriteFilmUpdating(true);
+    const newStatus = !isFavourite;
+    changeFavoriteFilmStatus(filmId, newStatus).then(() => setIsFavouriteFilmUpdating(false));
+    setIsFavourite(newStatus);
+    const delta = newStatus ? 1 : -1;
+    setFavouriteFilmsCount(favoriteFilmsCount + delta);
   };
 
   return (
     <button className="btn btn--list film-card__button" type="button" onClick={onClick} disabled={isFavoriteFilmUpdating}>
       <svg viewBox="0 0 19 20" width="19" height="20">
-        <use xlinkHref={film.isFavorite ? '#in-list' : '#add'}></use>
+        <use xlinkHref={isFavourite ? '#in-list' : '#add'}></use>
       </svg>
       <span>My list</span>
-      <span className="film-card__count">{favoriteFilms.length}</span>
+      <span className="film-card__count">{favoriteFilmsCount}</span>
     </button>
   );
 }

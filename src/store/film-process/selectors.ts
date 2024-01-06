@@ -8,6 +8,3 @@ export const getGenreFilms = (state: State) => state[NameSpace.Film].genreFilms;
 
 export const getSelectedFilm = (state: State) => state[NameSpace.Film].selectedFilm;
 export const isFilmDetailLoading = (state: State) => state[NameSpace.Film].isFilmDetailLoading;
-
-export const getIsFavoriteFilmUpdating = (state: State) => state[NameSpace.Film].isFavoriteFilmUpdating;
-export const getFavoriteFilms = (state: State) => state[NameSpace.Film].favoriteFilms;

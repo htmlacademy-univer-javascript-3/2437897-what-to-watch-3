@@ -1,5 +1,5 @@
 import MainPage from './pages/main/main.tsx';
-import {BrowserRouter, Outlet, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Outlet, Route, Routes, useNavigate} from 'react-router-dom';
 import {SignInPage} from './pages/sign-in/sign-in';
 import {MyListPage} from './pages/my-list/my-list';
 import {MoviePage} from './pages/movie/movie';
@@ -9,32 +9,34 @@ import {NotFoundPage} from './pages/not-found/not-found';
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from './hooks/index';
 import {LoadingScreen} from './pages/loading-screen/loading-screen';
-import {fetchFavoriteFilms, fetchFilmList, verifyAuthorized} from './store/api-action';
+import {fetchFilmList, verifyAuthorized} from './store/api-action';
 import {AuthorizationStatus} from './types/auth.ts';
 import {getIsFilmsLoading} from './store/film-process/selectors';
 import {getAuthorizationState} from './store/user-process/selectors';
 
 
 function AuthRequired({authorizationStatus} : { authorizationStatus: AuthorizationStatus }){
-  return (
-    <>
-      {/*eslint-disable-next-line*/}
-      {authorizationStatus === AuthorizationStatus.Authorized ? <Outlet/> : <SignInPage/>}
-    </>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authorizationStatus !== AuthorizationStatus.Authorized){
+      navigate('/login');
+    }
+  }, [navigate, authorizationStatus]);
+
+  return <Outlet/>;
 }
 
 
 function App() {
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationState);
 
   useEffect(() => {
     dispatch(verifyAuthorized());
     dispatch(fetchFilmList());
-    dispatch(fetchFavoriteFilms());
   }, [dispatch]);
 
-  const authorizationStatus = useAppSelector(getAuthorizationState);
   const isFilmListLoading = useAppSelector(getIsFilmsLoading);
   if (authorizationStatus === AuthorizationStatus.Unknown || isFilmListLoading) {
     return (
