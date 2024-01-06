@@ -71,12 +71,11 @@ export function MoviePage(){
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link
-                  to={authorizationStatus === AuthorizationStatus.Authorized ? `/films/${film.id}/review` : '/login'}
-                  className="btn film-card__button"
-                >
-                  Add review
-                </Link>
+                {authorizationStatus === AuthorizationStatus.Authorized &&
+                  <Link to={`/films/${film.id}/review`} className="btn film-card__button">
+                    Add review
+                  </Link>
+                }
               </div>
             </div>
           </div>

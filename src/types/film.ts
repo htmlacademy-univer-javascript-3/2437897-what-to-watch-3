@@ -1,26 +1,30 @@
-export type FilmInfoShort = {
+interface FilmInfoBase {
   id: string;
   name: string;
-  previewImage: string;
   genre: string;
+}
+
+export interface FilmInfoShort extends FilmInfoBase {
+  previewImage: string;
   previewVideoLink: string;
 }
 
-
-export type FilmInfoDetail = {
-  id: string;
-  name: string;
+export interface PromoFilm extends FilmInfoBase {
   posterImage: string;
   backgroundImage: string;
-  backgroundColor: string;
   videoLink: string;
+  released: number;
+  isFavourite?: boolean;
+}
+
+
+export interface FilmInfoDetail extends PromoFilm {
+  backgroundColor: string;
   description: string;
   rating: number;
   scoresCount: number;
   director: string;
   starring: string[];
   runTime: number;
-  genre: string;
-  released: number;
   isFavorite?: boolean;
 }

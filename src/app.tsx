@@ -46,7 +46,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/'>
-          <Route index element={<MainPage selectedFilm={films[0]}/>}/>
+          <Route index element={<MainPage />}/>
           <Route path='login' element={<SignInPage/>}/>
           <Route element={<AuthRequired authorizationStatus={authorizationStatus}/>}>
             <Route path='mylist' element={<MyListPage films={films}/>}/>

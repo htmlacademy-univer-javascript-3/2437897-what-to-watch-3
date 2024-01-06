@@ -1,22 +1,31 @@
-import {FilmList} from '../../components/film-list';
-import {FilmInfoShort} from '../../types/film';
 import {GenreList} from '../../components/genre-list';
-import {useAppSelector} from '../../hooks/index';
 import {Header} from '../../components/header.tsx';
-import {getGenreFilms} from '../../store/film-process/selectors';
+import {api} from "../../store";
+import {PromoFilm} from "../../types/film.ts";
+import {useEffect, useState} from "react";
+import {LoadingScreen} from "../loading-screen/loading-screen.tsx";
 
-export type MainPageProps = {
-  selectedFilm: FilmInfoShort;
-}
+const fetchPromoFilm = async () => {
+  const {data: promoFilm} = await api.get<PromoFilm>(`/promo`);
+  return promoFilm;
+};
 
-function MainPage({selectedFilm}: MainPageProps){
-  const films = useAppSelector(getGenreFilms);
+function MainPage(){
+  const [selectedFilm, setSelectedFilm]= useState<PromoFilm>();
+
+  useEffect(() => {
+    fetchPromoFilm().then(promoFilm => setSelectedFilm(promoFilm));
+  }, []);
+
+  if (!selectedFilm) {
+    return <LoadingScreen/>;
+  }
 
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={selectedFilm.previewImage} alt={selectedFilm.name}/>
+          <img src={selectedFilm.backgroundImage} alt={selectedFilm.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -24,14 +33,14 @@ function MainPage({selectedFilm}: MainPageProps){
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={selectedFilm.previewImage} alt={selectedFilm.name} width="218" height="327"/>
+              <img src={selectedFilm.posterImage} alt={selectedFilm.name} width="218" height="327"/>
             </div>
 
             <div className="film-card__desc">
               <h2 className="film-card__title">{selectedFilm.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{selectedFilm.genre}</span>
-                <span className="film-card__year">{new Date().getFullYear()}</span>
+                <span className="film-card__year">{selectedFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -59,7 +68,6 @@ function MainPage({selectedFilm}: MainPageProps){
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <GenreList/>
-          <FilmList films={films}/>
         </section>
 
         <footer className="page-footer">
