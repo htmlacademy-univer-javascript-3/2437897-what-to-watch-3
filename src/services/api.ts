@@ -45,7 +45,9 @@ export const getAPIClient = (): AxiosInstance => {
     (error: AxiosError<DetailMessageType>) => {
       if (error.response && shouldDisplayError(error.response)) {
         const detailMessage = (error.response.data);
-        toast.warn(detailMessage.message);
+        toast.warn(detailMessage.message, {
+          toastId: error.response.data.message
+        });
       }
 
       throw error;
