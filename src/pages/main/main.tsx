@@ -47,7 +47,7 @@ function MainPage(){
 
               <div className="film-card__buttons">
                 <PlayFilmButton filmId={selectedFilm.id}/>
-                <FavoriteButton film={selectedFilm}/>
+                <FavoriteButton filmId={selectedFilm.id}/>
               </div>
             </div>
           </div>

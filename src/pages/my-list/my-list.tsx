@@ -1,11 +1,21 @@
 import {FilmList} from '../../components/film-list';
 import {Link} from 'react-router-dom';
 import {Header} from '../../components/header.tsx';
-import {useAppSelector} from '../../hooks';
-import {getFavoriteFilms} from '../../store/film-process/selectors.ts';
+import {useEffect, useState} from "react";
+import {FilmInfoShort} from "../../types/film.ts";
+import {LoadingScreen} from "../loading-screen/loading-screen.tsx";
+import {fetchFavouriteFilms} from "../../services/api.ts";
 
 export function MyListPage(){
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const [favoriteFilms, setFavoriteFilms] = useState<FilmInfoShort[] | undefined>(undefined);
+
+  useEffect(() => {
+    fetchFavouriteFilms().then(films => setFavoriteFilms(films));
+  }, []);
+
+  if (favoriteFilms === undefined){
+    return <LoadingScreen/>;
+  }
 
   return (
     <div className="user-page">

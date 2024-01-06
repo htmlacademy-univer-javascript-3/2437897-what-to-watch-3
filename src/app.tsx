@@ -9,7 +9,7 @@ import {NotFoundPage} from './pages/not-found/not-found';
 import {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from './hooks/index';
 import {LoadingScreen} from './pages/loading-screen/loading-screen';
-import {fetchFavoriteFilms, fetchFilmList, verifyAuthorized} from './store/api-action';
+import {fetchFilmList, verifyAuthorized} from './store/api-action';
 import {AuthorizationStatus} from './types/auth.ts';
 import {getIsFilmsLoading} from './store/film-process/selectors';
 import {getAuthorizationState} from './store/user-process/selectors';
@@ -30,14 +30,13 @@ function AuthRequired({authorizationStatus} : { authorizationStatus: Authorizati
 
 function App() {
   const dispatch = useAppDispatch();
+  const authorizationStatus = useAppSelector(getAuthorizationState);
 
   useEffect(() => {
     dispatch(verifyAuthorized());
     dispatch(fetchFilmList());
-    dispatch(fetchFavoriteFilms());
   }, [dispatch]);
 
-  const authorizationStatus = useAppSelector(getAuthorizationState);
   const isFilmListLoading = useAppSelector(getIsFilmsLoading);
   if (authorizationStatus === AuthorizationStatus.Unknown || isFilmListLoading) {
     return (

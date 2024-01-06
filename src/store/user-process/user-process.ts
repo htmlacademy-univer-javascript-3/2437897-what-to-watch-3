@@ -34,8 +34,8 @@ export const userProcess = createSlice({
         state.user = user;
       })
       .addCase(logOut, (state) => {
-        state.authorizationStatus = AuthorizationStatus.AuthRequired;
         dropToken();
+        state.authorizationStatus = AuthorizationStatus.AuthRequired;
       });
   }
 });
