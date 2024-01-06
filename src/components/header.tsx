@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {ReactNode} from 'react';
 import {useAppSelector} from '../hooks';
 import {AuthorizationStatus} from '../types/auth.ts';
@@ -13,6 +13,7 @@ export type HeaderProps = {
 
 export function Header({extraStyle = '', children = undefined}: HeaderProps){
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const authorizationStatus = useAppSelector(getAuthorizationState);
   const user = useAppSelector(getUser);
 
@@ -35,7 +36,7 @@ export function Header({extraStyle = '', children = undefined}: HeaderProps){
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
-                <img src={user.avatarUrl} alt="User avatar" width="63" height="63"/>
+                <img src={user.avatarUrl} alt="User avatar" width="63" height="63" onClick={() => navigate('/mylist')}/>
               </div>
             </li>
             <li className="user-block__item">

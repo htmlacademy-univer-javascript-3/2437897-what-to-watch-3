@@ -24,7 +24,7 @@ export function FilmCard(props: FilmInfoShort){
     <article className="small-film-card catalog__films-card"
              onMouseEnter={onMouseEnter}
              onMouseLeave={onMouseLeave}
-             onClick={() => navigate(`films/${props.id}`)}
+             onClick={() => navigate(`/films/${props.id}`)}
              style={{cursor: 'pointer'}}
     >
       <div className="small-film-card__image">

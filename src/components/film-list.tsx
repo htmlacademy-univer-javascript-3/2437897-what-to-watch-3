@@ -4,17 +4,18 @@ import {useState} from 'react';
 
 const FILMS_BATCH_SIZE = 8;
 
-export function FilmList({films}: { films: FilmInfoShort[] }) {
+export function FilmList({films, maxCount = undefined}: { films: FilmInfoShort[]; maxCount?: number }) {
   const [filmsCount, setFilmsCount] = useState(FILMS_BATCH_SIZE);
+  maxCount = Math.min(maxCount || films.length, films.length);
   return (
     <>
       <div className="catalog__films-list">
         {
-          films.slice(0, filmsCount).map((film) => <FilmCard key={film.id} {...film} />)
+          films.slice(0, Math.min(filmsCount, maxCount)).map((film) => <FilmCard key={film.id} {...film} />)
         }
       </div>
       {
-        filmsCount < films.length && (
+        filmsCount < maxCount && (
           <div className="catalog__more">
             <button
               className="catalog__button"

@@ -1,22 +1,24 @@
-interface FilmInfoBase {
+export interface FilmBase {
   id: string;
   name: string;
   genre: string;
 }
 
-export interface FilmInfoShort extends FilmInfoBase {
+export interface FilmInfoShort extends FilmBase {
   previewImage: string;
   previewVideoLink: string;
 }
 
-export interface PromoFilm extends FilmInfoBase {
+export interface FavoriteFilm extends FilmInfoShort {
+  isFavorite: boolean;
+}
+
+export interface PromoFilm extends FavoriteFilm {
   posterImage: string;
   backgroundImage: string;
   videoLink: string;
   released: number;
-  isFavourite?: boolean;
 }
-
 
 export interface FilmInfoDetail extends PromoFilm {
   backgroundColor: string;
@@ -26,5 +28,4 @@ export interface FilmInfoDetail extends PromoFilm {
   director: string;
   starring: string[];
   runTime: number;
-  isFavorite?: boolean;
 }
